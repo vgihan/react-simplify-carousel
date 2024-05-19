@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "commonjs",
+    "jsx": "react",
+    "isolatedModules": true,
+    "moduleResolution": "node",
+    "baseUrl": "./src",
+    "outDir": "./dist",
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "paths": {
+      "slider": [
+        "index.tsx"
+      ]
+    }
+  },
+  "include": [
+    "src",
+  ],
+  "exclude": [
+    "./node_modules/*",
+    "dist"
+  ]
+}

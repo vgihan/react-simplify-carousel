@@ -1,0 +1,7 @@
+node_modules/
+build/
+.eslintcache
+src/**/**/__generated__/
+dist
+
+*storybook.log
