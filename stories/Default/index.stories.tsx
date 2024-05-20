@@ -37,7 +37,6 @@ const Template = () => (
       ))}
       perPage={3}
       expandedSpacing={0}
-      direction="rtl"
     />
   </div>
 );

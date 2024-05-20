@@ -3,7 +3,6 @@ import { floor, times, } from 'lodash';
 
 import styles from 'styles';
 
-type Direction = 'rtl' | 'ltr' | undefined;
 interface SliderHandle {
   slideToPrev: () => void
   slideToNext: () => void
@@ -27,7 +26,7 @@ interface SliderProps {
   perPage?: number
   loop?: boolean
   isSwipeable?: boolean
-  direction?: Direction
+  rtl?: boolean
   onSlideChange?: (slideIndex: number) => void
   handleRef?: React.RefObject<SliderHandle>
 }
@@ -42,7 +41,7 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(({
   expandedSpacing: propExpandedSpacing = 0,
   loop: propLoop = false,
   isSwipeable: propIsSwipeable = true,
-  direction = 'ltr',
+  rtl = false,
   onSlideChange,
   handleRef: propHandleRef,
 }: SliderProps, ref) => {
@@ -63,7 +62,6 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(({
   const loop = (canSlide && propLoop);
   const isSwipeable = (canSlide && propIsSwipeable);
   const expandedSpacing = (canSlide ? propExpandedSpacing : 0);
-  const isRtl = (direction === 'rtl');
 
   const clonedSlideCount = loop ? perPage + slideBy : 0;
   const clonedTailSlides = (
@@ -153,8 +151,8 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(({
       e.preventDefault();
       if (!swipeRef.current) {
         swipeRef.current = {
-          startX: e.pageX,
-          currentX: e.pageX,
+          startX: e.clientX,
+          currentX: e.clientX,
         };
       }
     };
@@ -167,8 +165,8 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(({
         const distanceToSlide = floor(Math.abs(swipeOffset) / (slideWidth * slideBy));
         const remainOffset = swipeOffset % (slideWidth * slideBy);
         const didSwipeToNext = (
-          (isRtl && swipeOffset > 0) ||
-          (!isRtl && swipeOffset < 0)
+          (rtl && swipeOffset > 0) ||
+          (!rtl && swipeOffset < 0)
         );
         handleSlideChange(
           Math.abs(remainOffset) > swipeThreshold
@@ -194,8 +192,8 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(({
         const offset = currentX - startX;
         if (loop) {
           setCurrentSlideIndex((prevIndex) => {
-            const shouldRepeatFromHead = (prevIndex < 0 && ((!isRtl && offset > 0) || (isRtl && offset < 0)));
-            const shouldRepeatFromTail = (prevIndex >= slidesLength - slideBy && ((!isRtl && offset < 0) || (isRtl && offset > 0)));
+            const shouldRepeatFromHead = (prevIndex < 0 && ((!rtl && offset > 0) || (rtl && offset < 0)));
+            const shouldRepeatFromTail = (prevIndex >= slidesLength - slideBy && ((!rtl && offset < 0) || (rtl && offset > 0)));
 
             if (shouldRepeatFromHead) return prevIndex + slidesLength;
             else if (shouldRepeatFromTail) return prevIndex - slidesLength;
@@ -222,9 +220,9 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(({
 
   const sliderOffset = (
     !hasPrev
-      ? (isRtl ? 1 : -1) * expandedSpacing + swipeOffset
+      ? (rtl ? 1 : -1) * expandedSpacing + swipeOffset
       : !hasNext
-        ? (isRtl ? -1 : 1) * expandedSpacing + swipeOffset
+        ? (rtl ? -1 : 1) * expandedSpacing + swipeOffset
         : swipeOffset
   );
 
@@ -235,7 +233,7 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(({
         className,
       ].join(' ').trimEnd()}
       ref={ref}
-      dir={direction}
+      dir={rtl ? 'rtl' : 'ltr'}
     >
       <div
         ref={sliderRef}
@@ -247,7 +245,7 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(({
         style={{
           transform: (
             `translateX(calc(
-              ${(isRtl ? 1 : -1) * ((currentSlideIndex + (loop ? clonedSlideCount : 0)) / perPage) * 100}% +
+              ${(rtl ? 1 : -1) * ((currentSlideIndex + (loop ? clonedSlideCount : 0)) / perPage) * 100}% +
               ${sliderOffset}px
             ))`
           ),
