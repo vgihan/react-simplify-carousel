@@ -5,7 +5,6 @@ import "src/index.css"
 
 const Template = () => {
   const carouselHandleRef = useRef<SliderHandle>(null);
-  const carouselRef = useRef(null);
 
   return (
     <div
@@ -15,6 +14,7 @@ const Template = () => {
         justifyContent: 'center',
         alignItems: 'center',
         padding: 100,
+        flexDirection: 'column'
       }}
     >
       <Slider
@@ -41,9 +41,22 @@ const Template = () => {
         ))}
         perPage={3}
         expandedSpacing={0}
-        ref={carouselRef}
         handleRef={carouselHandleRef}
       />
+      <button
+        onClick={() => {
+          carouselHandleRef.current?.slideToPrev();
+        }}
+      >
+        {'<'}
+      </button>
+      <button
+        onClick={() => {
+          carouselHandleRef.current?.slideToNext();
+        }}
+      >
+        {'>'}
+      </button>
     </div>
   )
 }
