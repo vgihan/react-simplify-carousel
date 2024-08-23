@@ -4,7 +4,7 @@ import Slider, { SliderHandle } from '../../src';
 import "src/index.css"
 
 const Template = () => {
-  const carouselHandleRef = useRef<SliderHandle>(null);
+  const sliderHandleRef = useRef<SliderHandle>(null);
 
   return (
     <div
@@ -41,18 +41,18 @@ const Template = () => {
         ))}
         perPage={3}
         expandedSpacing={0}
-        handleRef={carouselHandleRef}
+        handleRef={sliderHandleRef}
       />
       <button
         onClick={() => {
-          carouselHandleRef.current?.slideToPrev();
+          sliderHandleRef.current?.slideToPrev();
         }}
       >
         {'<'}
       </button>
       <button
         onClick={() => {
-          carouselHandleRef.current?.slideToNext();
+          sliderHandleRef.current?.slideToNext();
         }}
       >
         {'>'}

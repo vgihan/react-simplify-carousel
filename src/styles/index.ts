@@ -1,8 +1,8 @@
 export default {
-  root: 'soso-carousel-root',
-  slider: 'soso-carousel-slider',
-  sliderDisabledTransition: 'soso-carousel-slider--disabled-transition',
-  sliderSwipeable: 'soso-carousel-slider--swipeable',
-  slide: 'soso-carousel-slide',
-  slideVisible: 'soso-carousel-slide--visible',
+  root: 'react-simplify-slider-root',
+  slider: 'react-simplify-slider',
+  sliderDisabledTransition: 'react-simplify-slider--disabled-transition',
+  sliderSwipeable: 'react-simplify-slider--swipeable',
+  slide: 'react-simplify-slider-slide',
+  slideVisible: 'react-simplify-slider-slide--visible',
 };
