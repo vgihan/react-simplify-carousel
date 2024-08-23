@@ -4,7 +4,6 @@
     "module": "commonjs",
     "jsx": "react",
     "isolatedModules": true,
-    "moduleResolution": "node",
     "baseUrl": "./src",
     "outDir": "./dist",
     "typeRoots": [
