@@ -14,7 +14,7 @@ const commonOptions: BuildOptions = {
 };
 
 (async () => {
-  // ESModule build (default)
+  /* ESModule build (default) */
   await build({
     ...commonOptions,
     format: 'esm',
@@ -22,7 +22,7 @@ const commonOptions: BuildOptions = {
     console.log(error);
     process.exit(1);
   });
-  // CommonJS build
+  /* CommonJS build */
   await build({
     ...commonOptions,
     format: 'cjs',
