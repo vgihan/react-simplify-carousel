@@ -21,6 +21,7 @@ const config = {
       alias: {
         src: path.resolve(__dirname, '..', 'src'),
         styles: path.resolve(__dirname, '..', 'src', 'styles'),
+        utils: path.resolve(__dirname, '..', 'src', 'utils'),
         slider: path.resolve(__dirname, '..', 'src', 'index.tsx'),
       }
     }

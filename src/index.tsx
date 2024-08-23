@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
-import { floor, times, } from 'lodash';
 
 import styles from 'styles';
+import { times } from 'utils/tool';
 
 interface SliderHandle {
   slideToPrev: () => void
@@ -64,6 +64,7 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(({
   const expandedSpacing = (canSlide ? propExpandedSpacing : 0);
 
   const clonedSlideCount = loop ? perPage + slideBy : 0;
+
   const clonedTailSlides = (
     times(clonedSlideCount).reverse()
       .map((v) => (slidesLength - v - 1) % slidesLength)
@@ -162,7 +163,7 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(({
 
       if (swipeRef.current) {
         setTransitionDisabled(false);
-        const distanceToSlide = floor(Math.abs(swipeOffset) / (slideWidth * slideBy));
+        const distanceToSlide = Math.floor(Math.abs(swipeOffset) / (slideWidth * slideBy));
         const remainOffset = swipeOffset % (slideWidth * slideBy);
         const didSwipeToNext = (
           (rtl && swipeOffset > 0) ||

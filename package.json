@@ -5,12 +5,14 @@
   "author": "Gihan Kim",
   "license": "MIT",
   "exports": {
-    ".": {
-      "default": "./dist/index.js",
-      "require": "./dist/index.cjs",
+    "import": {
+      "default": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./index.css": "./dist/index.css"
+    "require": {
+      "default": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
   },
   "scripts": {
     "build": "ts-node ./tools/build.ts",
@@ -19,7 +21,6 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "lodash": "^4.17.21",
     "react": "^18.3.1"
   },
   "devDependencies": {

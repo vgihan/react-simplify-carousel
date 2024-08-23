@@ -18,6 +18,7 @@ const commonOptions: BuildOptions = {
   await build({
     ...commonOptions,
     format: 'esm',
+    outExtension: { '.js': '.mjs' }
   }).catch((error) => {
     console.log(error);
     process.exit(1);
