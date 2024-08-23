@@ -1,9 +1,12 @@
 {
   "name": "react-simplify-slider",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "React light-weight simple slider UI Library",
   "author": "Gihan Kim",
   "license": "MIT",
+  "files": [
+    "dist/*"
+  ],
   "exports": {
     "import": {
       "default": "./dist/index.mjs",
@@ -14,8 +17,18 @@
       "types": "./dist/index.d.ts"
     }
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vgihan/react-simplify-slider"
+  },
+  "keywords": [
+    "react",
+    "simplify",
+    "slider",
+    "carousel"
+  ],
   "scripts": {
-    "build": "ts-node ./tools/build.ts",
+    "build": "ts-node ./scripts/build.ts",
     "build:types": "tsc -p .",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
