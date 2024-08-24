@@ -1,12 +1,15 @@
 {
   "name": "react-simplify-slider",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "React light-weight simple slider UI Library",
   "author": "Gihan Kim",
   "license": "MIT",
   "files": [
     "dist/*"
   ],
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "exports": {
     "import": {
       "default": "./dist/index.mjs",
