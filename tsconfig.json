@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
-    "moduleResolution": "node",
     "module": "commonjs",
     "jsx": "react",
     "target": "es2017",
