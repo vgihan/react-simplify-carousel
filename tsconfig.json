@@ -4,16 +4,13 @@
     "module": "commonjs",
     "jsx": "react",
     "target": "es2017",
+    "skipLibCheck": true,
     "declaration": true,
     "emitDeclarationOnly": true,
-    "outDir": "./build",
+    "outDir": "./dist",
     "baseUrl": "./src"
   },
   "include": [
     "src",
   ],
-  "exclude": [
-    "node_modules",
-    "build"
-  ]
 }
