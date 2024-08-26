@@ -19,7 +19,7 @@ interface SliderProps {
       slideIndex: number
     }
   ) => React.ReactNode
-  className?: string
+  className?: React.HTMLAttributes<HTMLDivElement>['className']
   initialSlideIndex?: number
   expandedSpacing?: number
   slideBy?: number
