@@ -1,7 +1,7 @@
 {
-  "name": "react-simplify-slider",
-  "version": "0.2.1",
-  "description": "React light-weight simple slider UI Library",
+  "name": "react-simplify-carousel",
+  "version": "0.1.0",
+  "description": "React light-weight simple carousel UI Library",
   "author": "Gihan Kim",
   "license": "MIT",
   "files": [
@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vgihan/react-simplify-slider"
+    "url": "git+https://github.com/vgihan/react-simplify-carousel"
   },
   "keywords": [
     "react",

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import styles from 'styles';
 import { times } from 'utils/tool';
@@ -10,7 +10,7 @@ interface SliderHandle {
   length: number
   currentSlideIndex: number
 }
-interface SliderProps {
+interface CarouselProps {
   slides: Array<React.ReactElement>
   renderSlideWrapper?: (
     slide: this['slides'][number],
@@ -28,10 +28,10 @@ interface SliderProps {
   isSwipeable?: boolean
   rtl?: boolean
   onSlideChange?: (slideIndex: number) => void
-  handleRef?: React.RefObject<SliderHandle>
+  children?: (slider: React.ReactElement, sliderHandle: SliderHandle) => React.ReactElement
 }
 
-const Slider = React.forwardRef<HTMLDivElement, SliderProps>(({
+const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(({
   slides: propSlides,
   renderSlideWrapper = (slide) => slide,
   className = '',
@@ -43,11 +43,8 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(({
   isSwipeable: propIsSwipeable = true,
   rtl = false,
   onSlideChange,
-  handleRef: propHandleRef,
-}: SliderProps, ref) => {
-  const _handleRef = useRef(null);
-  const handleRef = propHandleRef || _handleRef;
-
+  children,
+}: CarouselProps, ref) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(initialSlideIndex);
   const [swipeOffset, setSwipeOffset] = useState(0);
   const [transitionDisabled, setTransitionDisabled] = useState(false);
@@ -139,14 +136,6 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(({
     }
   }, [currentSlideIndex]);
 
-  useImperativeHandle(handleRef, () => ({
-    slideToPrev,
-    slideToNext,
-    slideTo: handleSlideChange,
-    length: slidesLength,
-    currentSlideIndex,
-  }))
-
   useEffect(() => {
     const handleSwipeStart = (e: PointerEvent) => {
       e.preventDefault();
@@ -227,10 +216,17 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(({
         : swipeOffset
   );
 
-  return (
+  const sliderHandle = {
+    slideToPrev,
+    slideToNext,
+    slideTo: handleSlideChange,
+    length: slidesLength,
+    currentSlideIndex,
+  };
+  const slider = (
     <div
       className={[
-        styles.root,
+        styles.sliderRoot,
         className,
       ].join(' ').trimEnd()}
       ref={ref}
@@ -262,8 +258,10 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(({
       </div>
     </div>
   );
+
+  return children ? children(slider, sliderHandle) : slider;
 });
 
-export type { SliderProps, SliderHandle };
+export type { CarouselProps, SliderHandle };
 
-export default Slider;
+export default Carousel;

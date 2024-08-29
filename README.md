@@ -1,9 +1,9 @@
-# react-simplify-slider
-React Simple Slider is light-weight slider UI library
+# react-simplify-carousel
+React Simplify Carousel is light-weight slider UI library. The purpose of this Carousel is to allow it to be expanded and used in other Carousels to suit each service.
 
 ### Interface
 
-The main module is 'Slider', it has below interface. Slider props have handleRef can control Slider's inner state.
+The main module is 'Carousel', it has below interface. The 'children' render prop can be render function for rendering slider & your carousel controller elements
 
 ```typescript
 interface SliderHandle {
@@ -13,7 +13,7 @@ interface SliderHandle {
   length: number
   currentSlideIndex: number
 }
-interface SliderProps {
+interface CarouselProps {
   slides: Array<React.ReactElement>
   renderSlideWrapper?: (
     slide: this['slides'][number],
@@ -22,7 +22,7 @@ interface SliderProps {
       slideIndex: number
     }
   ) => React.ReactNode
-  className?: string
+  className?: React.HTMLAttributes<HTMLDivElement>['className']
   initialSlideIndex?: number
   expandedSpacing?: number
   slideBy?: number
@@ -31,6 +31,6 @@ interface SliderProps {
   isSwipeable?: boolean
   rtl?: boolean
   onSlideChange?: (slideIndex: number) => void
-  handleRef?: React.RefObject<SliderHandle>
+  children?: (slider: React.ReactElement, sliderHandle: SliderHandle) => React.ReactElement
 }
 ```

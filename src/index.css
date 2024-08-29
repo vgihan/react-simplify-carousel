@@ -1,30 +1,30 @@
 /* Slider */
-.react-simplify-slider-root {
+.react-simplify-carousel-slider-root {
   position: relative;
   overflow: hidden;
   width: 100%;
 }
 
-.react-simplify-slider {
+.react-simplify-carousel-slider {
   display: flex;
   transform: translateX(0);
   transition: transform 0.2s ease-out;
   touch-action: none;
 }
 
-.react-simplify-slider--disabled-transition {
+.react-simplify-carousel-slider--disabled-transition {
   transition: initial;
 }
 
-.react-simplify-slider--swipeable {
+.react-simplify-carousel-slider--swipeable {
   cursor: grab;
 }
 
-.react-simplify-slider--swipeable:active {
+.react-simplify-carousel-slider--swipeable:active {
   cursor: grabbing;
 }
 
 /* Slide */
-.react-simplify-slider-slide>* {
+.react-simplify-carousel-slide>* {
   width: 100%;
 }
