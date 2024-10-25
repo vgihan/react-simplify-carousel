@@ -34,3 +34,28 @@ interface CarouselProps {
   children?: (slider: React.ReactElement, sliderHandle: SliderHandle) => React.ReactElement
 }
 ```
+
+### Usage
+
+You should be import css 'react-simplify-carousel/dist/index.css' for apply styles.
+
+```typescript
+import 'react-simplify-carousel/dist/index.css';
+import BaseCarousel, { 
+  type CarouselProps as BaseCarouselProps,
+} from 'react-simplify-carousel';
+
+interface CarouselProps extends BaseCarouselProps {}
+
+const Carousel = ({
+  ...props
+}: CarouselProps) => {
+  /* ... extends logic */
+  return (
+    <Carousel {...props}>
+  )
+};
+
+export default Carousel;
+
+```
