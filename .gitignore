@@ -3,5 +3,6 @@ build/
 .eslintcache
 src/**/**/__generated__/
 dist
+yarn-error.log
 
 *storybook.log
