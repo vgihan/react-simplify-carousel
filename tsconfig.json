@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
-    "module": "commonjs",
+    "strict": true,
+    "module": "Node16",
+    "moduleResolution": "Node16",
     "jsx": "react",
-    "target": "es2017",
     "skipLibCheck": true,
     "declaration": true,
     "emitDeclarationOnly": true,

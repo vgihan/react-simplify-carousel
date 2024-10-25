@@ -1,7 +1,7 @@
 const MAX_SAFE_INTEGER = 9007199254740991;
 const MAX_ARRAY_LENGTH = 4294967295;
 
-export const times = (n, iteratee = (index) => index) => {
+export const times = (n: number, iteratee = (index: number) => index) => {
   if (n < 1 || n > MAX_SAFE_INTEGER) {
     return [];
   }

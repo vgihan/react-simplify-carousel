@@ -31,6 +31,11 @@ interface CarouselProps {
   children?: (slider: React.ReactElement, sliderHandle: SliderHandle) => React.ReactElement
 }
 
+interface SwipeInfo {
+  startX: number
+  currentX: number
+}
+
 const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(({
   slides: propSlides,
   renderSlideWrapper = (slide) => slide,
@@ -49,7 +54,7 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(({
   const [swipeOffset, setSwipeOffset] = useState(0);
   const [transitionDisabled, setTransitionDisabled] = useState(false);
 
-  const swipeRef = useRef(null);
+  const swipeRef = useRef<SwipeInfo>();
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const { length: slidesLength } = propSlides;
@@ -147,7 +152,10 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(({
       }
     };
     const handleSwipeEnd = () => {
-      const { width: slideWidth } = sliderRef.current?.firstElementChild.getBoundingClientRect();
+      const slideElement = sliderRef.current?.firstElementChild;
+      if (!slideElement) return;
+
+      const { width: slideWidth } = slideElement.getBoundingClientRect();
       const swipeThreshold = slideWidth / 2;
 
       if (swipeRef.current) {
@@ -171,7 +179,7 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(({
                 : currentSlideIndex - distanceToSlide * slideBy
             ),
         );
-        swipeRef.current = null;
+        swipeRef.current = undefined;
         setSwipeOffset(0);
       }
     };
@@ -195,7 +203,7 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(({
       }
     };
 
-    const sliderElement = sliderRef.current;
+    const sliderElement = sliderRef.current!;
     sliderElement.addEventListener('pointerdown', handleSwipeStart);
     sliderElement.addEventListener('pointerup', handleSwipeEnd);
     sliderElement.addEventListener('pointermove', handleSwipeMove);
