@@ -23,9 +23,7 @@
   "scripts": {
     "build": "ts-node ./scripts/build.ts",
     "build:types": "tsc -p .",
-    "test": "jest",
-    "prepare": "cp .githooks/* .git/hooks/",
-    "pre-commit": "yarn test && yarn build && yarn build:types"
+    "test": "jest"
   },
   "dependencies": {
     "react": "^18.3.1"
