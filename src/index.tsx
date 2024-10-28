@@ -9,6 +9,8 @@ interface SliderHandle {
   slideTo: (index: number) => void
   length: number
   currentSlideIndex: number
+  hasPrev: boolean
+  hasNext: boolean
 }
 interface CarouselProps {
   slides: Array<React.ReactElement>
@@ -230,6 +232,8 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(({
     slideTo: handleSlideChange,
     length: slidesLength,
     currentSlideIndex,
+    hasPrev,
+    hasNext,
   };
   const slider = (
     <div
