@@ -9,6 +9,7 @@ const commonOptions: BuildOptions = {
     '.tsx': 'tsx',
     '.css': 'css',
   },
+  minify: true,
   external: ['path', 'fs', 'react', 'lodash'],
   outdir: './dist'
 };
