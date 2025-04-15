@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 import styles from 'styles';
 import { times } from 'utils/tool';
@@ -143,80 +143,68 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(({
     }
   }, [currentSlideIndex]);
 
-  useEffect(() => {
-    const handleSwipeStart = (e: PointerEvent) => {
-      e.preventDefault();
-      if (!swipeRef.current) {
-        swipeRef.current = {
-          startX: e.clientX,
-          currentX: e.clientX,
-        };
-      }
-    };
-    const handleSwipeEnd = () => {
-      const slideElement = sliderRef.current?.firstElementChild;
-      if (!slideElement) return;
+  const handleSwipeStart = useCallback((e: React.PointerEvent) => {
+    e.preventDefault();
+    if (!swipeRef.current) {
+      swipeRef.current = {
+        startX: e.clientX,
+        currentX: e.clientX,
+      };
+    }
+  }, []);
 
-      const { width: slideWidth } = slideElement.getBoundingClientRect();
-      const swipeThreshold = slideWidth / 2;
+  const handleSwipeEnd = useCallback(() => {
+    const slideElement = sliderRef.current?.firstElementChild;
+    if (!slideElement) return;
 
-      if (swipeRef.current) {
-        setTransitionDisabled(false);
-        const distanceToSlide = Math.floor(Math.abs(swipeOffset) / (slideWidth * slideBy));
-        const remainOffset = swipeOffset % (slideWidth * slideBy);
-        const didSwipeToNext = (
-          (rtl && swipeOffset > 0) ||
-          (!rtl && swipeOffset < 0)
-        );
-        handleSlideChange(
-          Math.abs(remainOffset) > swipeThreshold
-            ? (
-              didSwipeToNext
-                ? currentSlideIndex + (distanceToSlide + 1) * slideBy
-                : currentSlideIndex - (distanceToSlide + 1) * slideBy
-            )
-            : (
-              didSwipeToNext
-                ? currentSlideIndex + distanceToSlide * slideBy
-                : currentSlideIndex - distanceToSlide * slideBy
-            ),
-        );
-        swipeRef.current = undefined;
-        setSwipeOffset(0);
-      }
-    };
-    const handleSwipeMove = (e: PointerEvent) => {
-      if (swipeRef.current) {
-        swipeRef.current.currentX = e.pageX;
-        const { startX, currentX } = swipeRef.current;
-        const offset = currentX - startX;
-        if (loop) {
-          setCurrentSlideIndex((prevIndex) => {
-            const shouldRepeatFromHead = (prevIndex < 0 && ((!rtl && offset > 0) || (rtl && offset < 0)));
-            const shouldRepeatFromTail = (prevIndex >= slidesLength - slideBy && ((!rtl && offset < 0) || (rtl && offset > 0)));
+    const { width: slideWidth } = slideElement.getBoundingClientRect();
+    const swipeThreshold = slideWidth / 2;
 
-            if (shouldRepeatFromHead) return prevIndex + slidesLength;
-            else if (shouldRepeatFromTail) return prevIndex - slidesLength;
-            else return prevIndex;
-          });
-        }
-        setTransitionDisabled(true);
-        setSwipeOffset(swipeRef.current.currentX - swipeRef.current.startX);
-      }
-    };
-
-    const sliderElement = sliderRef.current!;
-    sliderElement.addEventListener('pointerdown', handleSwipeStart);
-    sliderElement.addEventListener('pointerup', handleSwipeEnd);
-    sliderElement.addEventListener('pointermove', handleSwipeMove);
-    sliderElement.addEventListener('pointerleave', handleSwipeEnd);
-    return () => {
-      sliderElement.removeEventListener('pointerdown', handleSwipeStart);
-      sliderElement.removeEventListener('pointerup', handleSwipeEnd);
-      sliderElement.removeEventListener('pointermove', handleSwipeMove);
-      sliderElement.removeEventListener('pointerleave', handleSwipeEnd);
-    };
+    if (swipeRef.current) {
+      setTransitionDisabled(false);
+      const distanceToSlide = Math.floor(Math.abs(swipeOffset) / (slideWidth * slideBy));
+      const remainOffset = swipeOffset % (slideWidth * slideBy);
+      const didSwipeToNext = (
+        (rtl && swipeOffset > 0) ||
+        (!rtl && swipeOffset < 0)
+      );
+      handleSlideChange(
+        Math.abs(remainOffset) > swipeThreshold
+          ? (
+            didSwipeToNext
+              ? currentSlideIndex + (distanceToSlide + 1) * slideBy
+              : currentSlideIndex - (distanceToSlide + 1) * slideBy
+          )
+          : (
+            didSwipeToNext
+              ? currentSlideIndex + distanceToSlide * slideBy
+              : currentSlideIndex - distanceToSlide * slideBy
+          ),
+      );
+      swipeRef.current = undefined;
+      setSwipeOffset(0);
+    }
   }, [currentSlideIndex, swipeOffset]);
+
+  const handleSwipeMove = useCallback((e: React.PointerEvent) => {
+    if (swipeRef.current) {
+      swipeRef.current.currentX = e.pageX;
+      const { startX, currentX } = swipeRef.current;
+      const offset = currentX - startX;
+      if (loop) {
+        setCurrentSlideIndex((prevIndex) => {
+          const shouldRepeatFromHead = (prevIndex < 0 && ((!rtl && offset > 0) || (rtl && offset < 0)));
+          const shouldRepeatFromTail = (prevIndex >= slidesLength - slideBy && ((!rtl && offset < 0) || (rtl && offset > 0)));
+
+          if (shouldRepeatFromHead) return prevIndex + slidesLength;
+          else if (shouldRepeatFromTail) return prevIndex - slidesLength;
+          else return prevIndex;
+        });
+      }
+      setTransitionDisabled(true);
+      setSwipeOffset(swipeRef.current.currentX - swipeRef.current.startX);
+    }
+  }, []);
 
   const sliderOffset = (
     !hasPrev
@@ -260,6 +248,10 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(({
           ),
           margin: `0 ${expandedSpacing}px`,
         }}
+        onPointerDown={handleSwipeStart}
+        onPointerUp={handleSwipeEnd}
+        onPointerMove={handleSwipeMove}
+        onPointerLeave={handleSwipeEnd}
       >
         {slides.map((slide, i) => (
           times(perPage).map((v) => v + currentSlideIndex)
